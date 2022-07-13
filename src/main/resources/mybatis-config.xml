@@ -24,7 +24,7 @@
         <environment id="test">
             <transactionManager type="JDBC"/>
             <dataSource type="POOLED">
-                <!--数据库连接信息-->
+
                 <property name="driver" value="com.mysql.jdbc.Driver"/>
                 <property name="url" value="jdbc:mysql:///mybatis?useSSL=false"/>
                 <property name="username" value="root"/>
@@ -35,7 +35,7 @@
 
 
     <mappers>
-        <!--加载sql映射文件-->
+        <!--load the sql mapper files-->
        <!-- <mapper resource="com/itheima/mapper/UserMapper.xml"/>-->
 
         <!--Mapper代理方式-->

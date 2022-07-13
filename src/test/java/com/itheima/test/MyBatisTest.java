@@ -1,7 +1,9 @@
 package com.itheima.test;
 
 import com.itheima.mapper.BrandMapper;
+import com.itheima.mapper.UserMapper;
 import com.itheima.pojo.Brand;
+import com.itheima.pojo.User;
 import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
@@ -72,7 +74,7 @@ public class MyBatisTest {
         String brandName = "Hua Wei";
 
 
-        companyName = "%" + companyName + "%";  // 模糊查询
+        companyName = "%" + companyName + "%";
         brandName = "%" + brandName + "%";
 
 
@@ -102,7 +104,6 @@ public class MyBatisTest {
         List<Brand> brands = brandMapper.selectByCondition(map);
         System.out.println(brands);
 
-
         sqlSession.close();
 
     }
@@ -115,10 +116,8 @@ public class MyBatisTest {
         String companyName = "Hua Wei";
         String brandName = "Hua Wei";
 
-
         companyName = "%" + companyName + "%";
         brandName = "%" + brandName + "%";
-
 
         Brand brand = new Brand();
       //  brand.setStatus(status);
@@ -133,9 +132,7 @@ public class MyBatisTest {
 
         SqlSession sqlSession = sqlSessionFactory.openSession();
 
-
         BrandMapper brandMapper = sqlSession.getMapper(BrandMapper.class);
-
 
         List<Brand> brands = brandMapper.selectByConditionSingle(brand);
         System.out.println(brands);
@@ -172,9 +169,7 @@ public class MyBatisTest {
         SqlSession sqlSession = sqlSessionFactory.openSession();
         //SqlSession sqlSession = sqlSessionFactory.openSession(true);
 
-
         BrandMapper brandMapper = sqlSession.getMapper(BrandMapper.class);
-
 
 
         brandMapper.add(brand);
@@ -236,7 +231,7 @@ public class MyBatisTest {
 
     @Test
     public void testDeleteById() throws IOException {
-
+        //set the parameter
         int id = 4;
 
         String resource = "mybatis-config.xml";
@@ -259,34 +254,49 @@ public class MyBatisTest {
 
     @Test
     public void testDeleteByIds() throws IOException {
-        //接收参数
+        //set the parameter
 
         int[] ids = {5,7,8};
 
 
-        //1. 获取SqlSessionFactory
         String resource = "mybatis-config.xml";
         InputStream inputStream = Resources.getResourceAsStream(resource);
         SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
 
-        //2. 获取SqlSession对象
         SqlSession sqlSession = sqlSessionFactory.openSession();
         //SqlSession sqlSession = sqlSessionFactory.openSession(true);
 
-        //3. 获取Mapper接口的代理对象
         BrandMapper brandMapper = sqlSession.getMapper(BrandMapper.class);
-
-        //4. 执行方法
 
         brandMapper.deleteByIds(ids);
 
-        //提交事务
         sqlSession.commit();
 
-        //5. 释放资源
         sqlSession.close();
 
     }
 
+
+    @Test
+    public void testUserSelectAll() throws IOException {
+        //1. get SqlSessionFactory
+        String resource = "mybatis-config.xml";
+        InputStream inputStream = Resources.getResourceAsStream(resource);
+        SqlSessionFactory sqlSessionFactory = new SqlSessionFactoryBuilder().build(inputStream);
+
+        //2. get SqlSession object
+        SqlSession sqlSession = sqlSessionFactory.openSession();
+
+        //3. get object of mapper interface
+        UserMapper userMapper = sqlSession.getMapper(UserMapper.class);
+
+        //4. execute
+        List<User> users = userMapper.selectAll();
+        System.out.println(users);
+
+        //5. close
+        sqlSession.close();
+
+    }
 
 }
